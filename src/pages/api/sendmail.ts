@@ -27,8 +27,9 @@ export default async function handler(
     }
 
     // Datos extraidos del formulario para el envio de Email
-    const { email, nro_seguimiento, nombres } = JSON.parse(JSON.stringify(req.body));
+    const { email, nro_seguimiento, nombres } = JSON.parse(req.body); 
 
+    console.log(req.body);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
