@@ -11,6 +11,7 @@ type Data = {
   email?: any;
   ok?: boolean;
   nro_seguimiento?: string;
+  info?: any;
 };
 
 export default async function handler(
@@ -63,16 +64,18 @@ export default async function handler(
     // Trigger del envio del Email
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        return console.log(error);
+        return res.status(400).json({
+          message: "MENSAJE NO ENVIADO",
+          info: error
+        })
+
       }
-      console.log("Message sent: " + info.response);
+      return res.status(200).json({
+        message: "MENSAJE ENVIADO",
+        info: info.response
+      })
     });
 
-    // Envio exitoso de correo
-    return res.status(201).json({
-      message: "Correo informativo enviado correctamente",
-      ok: true,
-    });
   } catch (error) {
     // Mensaje de error - falla de servidor
     return res.status(500).json({
